@@ -82,10 +82,12 @@ if not os.path.isdir(".git"):
 # execute backups until keyboard interrupt occurs (ctrl-c)
 status = 0
 try:
-    while status == 0:
+    while True:
         timestamp = datetime.datetime.now()
         print("Info: Backing up Minecraft world with timestamp %s." % timestamp)
         status = run_backup(timestamp)
+        if status != 0:
+            break
         time.sleep(int(args.interval * 60))
 except KeyboardInterrupt:
     timestamp = datetime.datetime.now()
