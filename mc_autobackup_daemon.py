@@ -38,15 +38,17 @@ banner = r"""
 print(banner)
 parser = argparse.ArgumentParser(description='An application for regularly backing up a Minecraft server world.')
 parser.add_argument("--world", default="world", help="Directory of Minecraft world. Defaults to \"world\".")
-parser.add_argument("--interval", default=30, type=float, help="Interval of backups (in minutes). Defaults to 30 minutes.")
+parser.add_argument("--interval", default=30, type=float, help="Interval of backups (in minutes). \
+                                                                Defaults to 30 minutes.")
 args = parser.parse_args()
 
+
 # function for the process of backing up changes and handling the process exceptions
-def run_backup(timestamp):
-    status = 0
+def run_backup(timestamp_):
+    status_ = 0
     try:
         subprocess.check_output("git add -A")
-        subprocess.check_output("git commit --author=\"MC Autobackup Daemon <>\" -m \"%s: Autobackup\"" % timestamp)
+        subprocess.check_output("git commit --author=\"MC Autobackup Daemon <>\" -m \"%s: Autobackup\"" % timestamp_)
         print("Info: Backup successful.")
     except subprocess.CalledProcessError, error:
         if "nothing to commit" in error.output:
@@ -54,8 +56,9 @@ def run_backup(timestamp):
         else:
             print("Error: Unable to add backup. Check git repository. Error message:")
             print(error.output)
-            status = 1
-    return status
+            status_ = 1
+    return status_
+
 
 # check for git install
 try:
